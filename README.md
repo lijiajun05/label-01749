@@ -1,5 +1,77 @@
 # 班级事务与学风管理系统
 
+---
+
+## Docker 部署（推荐）
+
+### 环境要求
+- Docker 20.10+
+- Docker Compose 2.0+
+
+### 快速启动
+
+1. **克隆项目**
+```bash
+git clone <项目地址>
+cd label-01749
+```
+
+2. **一键启动所有服务**
+```bash
+docker-compose up -d
+```
+
+3. **访问系统**
+- 管理后台：http://localhost:8081
+- 后端 API：http://localhost:8080/api
+
+### 服务端口说明
+
+| 服务 | 端口 | 说明 |
+|------|------|------|
+| frontend-admin | 8081 | 管理后台前端（Nginx） |
+| backend | 8080 | 后端 API 服务 |
+| mysql | 3306 | MySQL 数据库 |
+
+### 常用 Docker 命令
+
+```bash
+# 启动所有服务
+docker-compose up -d
+
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f [服务名]
+# 例如：查看后端日志
+docker-compose logs -f backend
+
+# 停止所有服务
+docker-compose stop
+
+# 停止并删除容器、网络
+docker-compose down
+
+# 停止并删除容器、网络、镜像
+docker-compose down --rmi all
+
+# 停止并删除容器、网络、镜像、数据卷（注意：会删除数据库数据）
+docker-compose down -v --rmi all
+
+# 重新构建并启动服务
+docker-compose up -d --build
+```
+
+### 数据持久化
+
+MySQL 数据通过 Docker 卷持久化，即使删除容器，数据也不会丢失。如需清理数据：
+```bash
+docker-compose down -v
+```
+
+---
+
 ## How to Run
 
 ### 环境要求
@@ -32,15 +104,13 @@ npm run dev
 - 管理后台：http://localhost:3000（Vite 开发服务器）
 - 后端 API：http://localhost:8080/api
 
----
+## Services（端口说明）
 
-## Services（本地开发端口）
-
-| 服务 | 端口 | 说明 |
-|------|------|------|
-| frontend-admin | 3000 | 管理后台前端（`npm run dev`） |
-| backend | 8080 | 后端 API 服务 |
-| mysql | 3306 | MySQL 数据库 |
+| 服务 | 本地开发端口 | Docker 部署端口 | 说明 |
+|------|--------------|----------------|------|
+| frontend-admin | 3000 | 8081 | 管理后台前端 |
+| backend | 8080 | 8080 | 后端 API 服务 |
+| mysql | 3306 | 3306 | MySQL 数据库 |
 
 ---
 
@@ -107,14 +177,20 @@ npm run dev
 project-root/
 ├── backend/                    # 后端项目 (Spring Boot)
 │   ├── src/
+│   ├── Dockerfile
 │   └── pom.xml
 ├── frontend-admin/             # 管理后台前端 (Vue 3)
 │   ├── src/
+│   ├── Dockerfile
+│   ├── nginx.conf
 │   └── package.json
-├── mysql/                      # 数据库初始化脚本
-│   └── init/
-│       └── init.sql
+├── mysql/                      # 数据库相关
+│   ├── init/
+│   │   └── init.sql
+│   └── Dockerfile
+├── .dockerignore
 ├── .gitignore
+├── docker-compose.yml
 └── README.md
 ```
 
