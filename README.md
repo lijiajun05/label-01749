@@ -1,14 +1,70 @@
 # 班级事务与学风管理系统
 
-## How to Run
+## 运行方式
 
-### 环境要求
+### 方式一：Docker Compose 一键启动（推荐）
+
+#### 环境要求
+- Docker 20.10+
+- Docker Compose 2.20+
+
+#### 快速启动
+
+1. **克隆项目**：
+
+```bash
+git clone <repository-url>
+cd label-01749
+```
+
+2. **启动所有服务**：
+
+```bash
+docker-compose up -d
+```
+
+3. **访问系统**：
+
+- 管理后台：http://localhost:8081
+- 后端 API：http://localhost:8080/api
+- MySQL数据库：localhost:3306
+
+#### 常用命令
+
+```bash
+# 启动服务
+docker-compose up -d
+
+# 查看服务状态
+docker-compose ps
+
+# 查看服务日志
+docker-compose logs -f [服务名]
+
+# 停止服务
+docker-compose stop
+
+# 停止并删除容器
+docker-compose down
+
+# 停止并删除容器和数据卷（谨慎使用，会删除所有数据库数据）
+docker-compose down -v
+```
+
+#### 数据库初始化
+系统启动时会自动执行 `mysql/init/init.sql` 脚本初始化数据库表结构和数据。
+
+---
+
+### 方式二：本地开发启动
+
+#### 环境要求
 - JDK 17+
 - Maven 3.8+
 - Node.js 18+（建议 20 LTS）
 - MySQL 8.0
 
-### 启动步骤
+#### 启动步骤
 
 1. **准备数据库**：创建数据库与用户（与下方「数据库连接信息」一致），并执行 `mysql/init/init.sql` 初始化表结构与数据。
 
@@ -27,20 +83,22 @@ npm install
 npm run dev
 ```
 
-### 访问地址（本地开发）
+### 访问地址
 
-- 管理后台：http://localhost:3000（Vite 开发服务器）
-- 后端 API：http://localhost:8080/api
+| 运行方式 | 前端地址 | 后端API地址 | MySQL地址 |
+|----------|----------|-------------|-----------|
+| Docker Compose | http://localhost:8081 | http://localhost:8080/api | localhost:3306 |
+| 本地开发 | http://localhost:3000 | http://localhost:8080/api | localhost:3306 |
 
 ---
 
-## Services（本地开发端口）
+## Services 端口说明
 
-| 服务 | 端口 | 说明 |
-|------|------|------|
-| frontend-admin | 3000 | 管理后台前端（`npm run dev`） |
-| backend | 8080 | 后端 API 服务 |
-| mysql | 3306 | MySQL 数据库 |
+| 服务 | Docker端口 | 本地开发端口 | 说明 |
+|------|------------|--------------|------|
+| frontend-admin | 8081 | 3000 | 管理后台前端 |
+| backend | 8080 | 8080 | 后端 API 服务 |
+| mysql | 3306 | 3306 | MySQL 数据库 |
 
 ---
 
@@ -134,6 +192,14 @@ npm run build
 
 ### 数据库连接信息
 
+#### Docker Compose 环境
+- Host: mysql (服务名称，容器内部访问)
+- Port: 3306
+- Database: class_manage
+- Username: class_manage
+- Password: 123456
+
+#### 本地开发环境
 - Host: localhost
 - Port: 3306
 - Database: class_manage

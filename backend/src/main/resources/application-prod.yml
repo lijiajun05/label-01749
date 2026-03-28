@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql:3306/class_manage?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
-    username: ${SPRING_DATASOURCE_USERNAME:classmanage}
-    password: ${SPRING_DATASOURCE_PASSWORD:classmanage123}
+    username: ${SPRING_DATASOURCE_USERNAME:class_manage}
+    password: ${SPRING_DATASOURCE_PASSWORD:123456}
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 10
