@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # MySQL数据库服务
+  mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: class-manage-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: class_manage
+      MYSQL_USER: class_manage
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - class-manage-network
+
+  # 后端服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: class-manage-backend
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/class_manage?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: class_manage
+      SPRING_DATASOURCE_PASSWORD: 123456
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - class-manage-network
+
+  # 前端服务
+  frontend:
+    build:
+      context: ./frontend-admin
+      dockerfile: Dockerfile
+    container_name: class-manage-frontend
+    restart: always
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - class-manage-network
+
+volumes:
+  mysql_data:
+
+networks:
+  class-manage-network:
+    driver: bridge
