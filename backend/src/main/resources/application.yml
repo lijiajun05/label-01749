@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: class-manage-backend
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+
+# JWT 配置
+jwt:
+  secret: ClassManageSystemSecretKey2024VeryLongSecretKeyForJWTTokenGeneration
+  expiration: 86400000  # 24小时
+
+# RSA 配置 (留空则自动生成密钥对)
+rsa:
+  private-key: 
+  public-key: 
+
+# 数据备份配置
+backup:
+  enabled: true
+  cron: "0 0 2 * * ?"  # 每天凌晨2点执行
+  path: ./backups
+  retention-days: 30  # 保留30天的备份
+
+# 日志配置
+logging:
+  level:
+    com.classmanage: debug
+    org.springframework.security: info
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace

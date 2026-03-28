@@ -1,0 +1,44 @@
+# ==================== 通用 ====================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.temp
+.env
+.env.local
+.env.*.local
+
+# ==================== IDE ====================
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# ==================== Backend (Java/Maven) ====================
+backend/target/
+backend/*.jar
+backend/*.war
+backend/*.class
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+
+# ==================== Frontend (Node.js/Vue) ====================
+frontend-admin/node_modules/
+frontend-admin/dist/
+frontend-admin/.cache/
+frontend-admin/*.local
+frontend-admin/.env.development.local
+frontend-admin/.env.test.local
+frontend-admin/.env.production.local
+
+# ==================== MySQL ====================
+mysql/data/
+
+# ==================== 日志文件 ====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
